@@ -1,3 +1,4 @@
+// this file will recommend users to install these extensions if not already installed.
 {
   "recommendations": [
     "esbenp.prettier-vscode",

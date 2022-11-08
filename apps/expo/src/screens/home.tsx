@@ -17,10 +17,21 @@ import { trpc } from "../utils/trpc";
 const PostCard: React.FC<{
   post: inferProcedureOutput<AppRouter["post"]["all"]>[number];
 }> = ({ post }) => {
+  const deletePost = () => {
+    trpc.post.remove.useQuery(post.id);
+    console.log(`deleted post ${post.id}`);
+  };
   return (
-    <View className="p-4 border-2 border-gray-500 rounded-lg">
-      <Text className="text-xl font-semibold text-gray-800">{post.title}</Text>
-      <Text className="text-gray-600">{post.content}</Text>
+    <View className="p-4 border-2 border-gray-500 rounded-lg flex-row items-center">
+      <View className="grow">
+        <Text className="text-xl font-semibold text-gray-800">
+          {post.title}
+        </Text>
+        <Text className="text-gray-600">{post.content}</Text>
+      </View>
+      <Text className="text-red-600" onPress={() => deletePost()}>
+        X
+      </Text>
     </View>
   );
 };
@@ -30,9 +41,9 @@ const CreatePost: React.FC = () => {
   const { mutate } = trpc.post.create.useMutation({
     async onSuccess() {
       await utils.post.all.invalidate();
-      alert("Post successfully sent!")
-      onChangeTitle("")
-      onChangeContent("")
+      alert("Post successfully sent!");
+      onChangeTitle("");
+      onChangeContent("");
     },
   });
 
@@ -70,7 +81,12 @@ const CreatePost: React.FC = () => {
 
 export const HomeScreen = () => {
   const postQuery = trpc.post.all.useQuery();
+
+  // . showPost will give us post ID
   const [showPost, setShowPost] = React.useState<string | null>(null);
+
+  // const test = trpc.post.byId.useQuery(showPost || "cla8ih1bm000ep84llh63pvxx");
+  // console.log(test);
 
   return (
     <SafeAreaView>
@@ -95,7 +111,11 @@ export const HomeScreen = () => {
           estimatedItemSize={20}
           ItemSeparatorComponent={() => <View className="h-2" />}
           renderItem={(p) => (
-            <TouchableOpacity onPress={() => setShowPost(p.item.id)}>
+            <TouchableOpacity
+              onPress={() => {
+                setShowPost(p.item.id);
+              }}
+            >
               <PostCard post={p.item} />
             </TouchableOpacity>
           )}
