@@ -30,6 +30,9 @@ const CreatePost: React.FC = () => {
   const { mutate } = trpc.post.create.useMutation({
     async onSuccess() {
       await utils.post.all.invalidate();
+      alert("Post successfully sent!")
+      onChangeTitle("")
+      onChangeContent("")
     },
   });
 
@@ -41,11 +44,13 @@ const CreatePost: React.FC = () => {
       <TextInput
         className="border-2 border-gray-500 rounded p-2 mb-2"
         onChangeText={onChangeTitle}
+        value={title}
         placeholder="Title"
       />
       <TextInput
         className="border-2 border-gray-500 rounded p-2 mb-2"
         onChangeText={onChangeContent}
+        value={content}
         placeholder="Content"
       />
       <TouchableOpacity
