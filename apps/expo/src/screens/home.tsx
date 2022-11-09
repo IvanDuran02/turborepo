@@ -17,10 +17,14 @@ import { trpc } from "../utils/trpc";
 const PostCard: React.FC<{
   post: inferProcedureOutput<AppRouter["post"]["all"]>[number];
 }> = ({ post }) => {
-  const deletePost = () => {
-    trpc.post.remove.useQuery(post.id);
-    console.log(`deleted post ${post.id}`);
-  };
+  const utils = trpc.useContext();
+  const mutation = trpc.post.remove.useMutation({
+    async onSuccess() {
+      await utils.post.all.invalidate();
+      alert("message successfully deleted!");
+    },
+  });
+
   return (
     <View className="p-4 border-2 border-gray-500 rounded-lg flex-row items-center">
       <View className="grow">
@@ -29,7 +33,7 @@ const PostCard: React.FC<{
         </Text>
         <Text className="text-gray-600">{post.content}</Text>
       </View>
-      <Text className="text-red-600" onPress={() => deletePost()}>
+      <Text className="text-red-600" onPress={() => mutation.mutate(post.id)}>
         X
       </Text>
     </View>
