@@ -26,6 +26,8 @@ importers:
       '@types/react': ^18.0.25
       '@types/react-native': ~0.70.6
       expo: ~46.0.16
+      expo-device: ^5.0.0
+      expo-navigation-bar: ^2.0.1
       expo-status-bar: ~1.4.0
       nativewind: ^2.0.11
       postcss: ^8.4.14
@@ -44,6 +46,8 @@ importers:
       '@trpc/react-query': 10.0.0-rc.4_pieacm5nvr4i737qyicpco2adu
       '@trpc/server': 10.0.0-rc.4
       expo: 46.0.16_@babel+core@7.19.3
+      expo-device: 5.0.0_expo@46.0.16
+      expo-navigation-bar: 2.0.1_expo@46.0.16
       expo-status-bar: 1.4.0
       nativewind: 2.0.11_wjduxy65hirwowsrsjckactwfm
       react: 18.2.0
@@ -4574,6 +4578,15 @@ packages:
       - supports-color
     dev: false
 
+  /expo-device/5.0.0_expo@46.0.16:
+    resolution: {integrity: sha512-FWlbOUMzAjHojLER8fnS42vLT7aqZ7IoEY+nw/RqmW17SA3GE2lzcYxRYZs1vAIgDnLzcS5CQMp08Eu+EXih1g==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 46.0.16_@babel+core@7.19.3
+      ua-parser-js: 0.7.31
+    dev: false
+
   /expo-error-recovery/3.2.0_expo@46.0.16:
     resolution: {integrity: sha512-XZ630ks5HNxa9oc2Ya1hEn1ez031Cy4VnyxerPC2o9fKNKSrD/64cRqGF9NkGM3X2uf8+PCB9adxVflAIXBf6w==}
     requiresBuild: true
@@ -4629,6 +4642,18 @@ packages:
     dependencies:
       compare-versions: 3.6.0
       invariant: 2.2.4
+    dev: false
+
+  /expo-navigation-bar/2.0.1_expo@46.0.16:
+    resolution: {integrity: sha512-lR+77eOJ4unrDVtrOHRK95c2QGsbRlYt2PmAST9Y+AFEiqVsYWg2JZTp2f2XZxe/10i8jqgSHBMRm7I7w2DcBA==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      '@react-native/normalize-color': 2.1.0
+      debug: 4.3.4
+      expo: 46.0.16_@babel+core@7.19.3
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /expo-status-bar/1.4.0:

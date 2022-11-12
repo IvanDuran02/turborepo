@@ -13,4 +13,7 @@ export const postRouter = router({
     .mutation(({ ctx, input }) => {
       return ctx.prisma.post.create({ data: input });
     }),
+  remove: publicProcedure.input(z.string()).mutation(({ ctx, input }) => {
+    return ctx.prisma.post.delete({ where: { id: input } });
+  }),
 });
