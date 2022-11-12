@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
+import * as Device from "expo-device";
+import * as NavigationBar from "expo-navigation-bar";
 
 import {
+  RefreshControl,
   SafeAreaView,
   Text,
   TextInput,
@@ -83,22 +86,49 @@ const CreatePost: React.FC = () => {
   );
 };
 
+// this function will determine how long to spin the refresh animation, specifially I set it to stop when the promise is resolved
+const wait = () => {
+  return new Promise((resolve) => setTimeout(resolve));
+};
+
 export const HomeScreen = () => {
+  const device = Device.osName; // Android: "Android"; iOS: "iOS" or "iPadOS"; web: "iOS", "Android", "Windows"
   const postQuery = trpc.post.all.useQuery();
 
   // . showPost will give us post ID
   const [showPost, setShowPost] = React.useState<string | null>(null);
+  const [header, setHeader] = React.useState(<Text>Hello, world</Text>);
+  const [refreshing, setRefreshing] = React.useState(false);
 
-  // const test = trpc.post.byId.useQuery(showPost || "cla8ih1bm000ep84llh63pvxx");
-  // console.log(test);
+  const utils = trpc.useContext();
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    await utils.post.all.invalidate().then(() => {
+      wait().then(() => setRefreshing(false));
+    });
+  }, []);
 
-  return (
-    <SafeAreaView>
-      <View className="h-full w-full p-4">
+  useEffect(() => {
+    if (device === "Android") {
+      // for some reason there is no padding on the android so the text was covering the status bar
+      setHeader(
+        <Text className="text-5xl font-bold mx-auto pb-2 pt-10">
+          Create <Text className="text-indigo-500">T3</Text> Turbo!
+        </Text>
+      );
+      NavigationBar.setVisibilityAsync("visible"); // hides navigation bar by default
+    } else if (device === "iOS") {
+      setHeader(
         <Text className="text-5xl font-bold mx-auto pb-2">
           Create <Text className="text-indigo-500">T3</Text> Turbo
         </Text>
-
+      );
+    }
+  }, []);
+  return (
+    <SafeAreaView>
+      <View className="h-full w-full p-4">
+        {header}
         <View className="py-2">
           {showPost ? (
             <Text>
@@ -114,6 +144,9 @@ export const HomeScreen = () => {
           data={postQuery.data}
           estimatedItemSize={20}
           ItemSeparatorComponent={() => <View className="h-2" />}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           renderItem={(p) => (
             <TouchableOpacity
               onPress={() => {
