@@ -53,6 +53,8 @@ export default Home;
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
 
+  console.log(sessionData);
+
   return (
     <div className="flex items-center justify-between gap-8">
       {sessionData && (
