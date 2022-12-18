@@ -35,7 +35,7 @@ const Home: NextPage = () => {
         <div className="flex items-center justify-center w-full pt-6 text-2xl text-blue-500">
           {postQuery.data ? (
             <div className="flex flex-col gap-4">
-              {postQuery.data?.map((p) => {
+              {postQuery.data?.map((p: any) => {
                 return <PostCard key={p.id} post={p} />;
               })}
             </div>
@@ -53,12 +53,14 @@ export default Home;
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
 
+  console.log(sessionData);
+
   return (
     <div className="flex items-center justify-between gap-8">
       {sessionData && (
         <div>
           <p className="text-2xl text-indigo-500">
-            Logged in as {sessionData?.user?.name}
+            Logged in as - {sessionData?.user?.name}
           </p>
           <p className="text-sm text-gray-500">Id: {sessionData?.user?.id}</p>
         </div>
