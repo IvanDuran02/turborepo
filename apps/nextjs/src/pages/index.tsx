@@ -60,7 +60,7 @@ const AuthShowcase: React.FC = () => {
       {sessionData && (
         <div>
           <p className="text-2xl text-indigo-500">
-            Logged in as {sessionData?.user?.name}
+            Logged in as - {sessionData?.user?.name}
           </p>
           <p className="text-sm text-gray-500">Id: {sessionData?.user?.id}</p>
         </div>
