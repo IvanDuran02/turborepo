@@ -35,7 +35,7 @@ const Home: NextPage = () => {
         <div className="flex items-center justify-center w-full pt-6 text-2xl text-blue-500">
           {postQuery.data ? (
             <div className="flex flex-col gap-4">
-              {postQuery.data?.map((p) => {
+              {postQuery.data?.map((p: any) => {
                 return <PostCard key={p.id} post={p} />;
               })}
             </div>
